@@ -22,7 +22,16 @@
         tools:layout="@layout/fragment_second">
 
         <action
-            android:id="@+id/action_SecondFragment_to_FirstFragment"
+            android:id="@+id/action_SecondFragment_to_ComposeFragment"
+            app:destination="@id/ComposeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/ComposeFragment"
+        android:name="com.example.fiddlercheck.ComposeFragment"
+        android:label="@string/second_fragment_label">
+
+        <action
+            android:id="@+id/action_ComposeFragment_to_FirstFragment"
             app:destination="@id/FirstFragment" />
     </fragment>
 </navigation>
