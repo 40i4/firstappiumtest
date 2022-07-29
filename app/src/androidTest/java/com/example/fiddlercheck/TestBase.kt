@@ -12,13 +12,14 @@ abstract class TestBase {
     protected val driver: AndroidDriver
         get() = _driver!!
 
-    private val options = EspressoOptions()
+    private val options = UiAutomator2Options()
         .setDeviceName("emulator-5554")
         .setPlatformName("Android")
         .setAppPackage(BuildConfig.APPLICATION_ID)
-        .setAppActivity("com.example.fiddlercheck.MainActivity")
+        //.setAppActivity("com.example.fiddlercheck.MainActivity")
         .eventTimings()
-    private val driverUrl: URL = URL("http://127.0.0.1:4723/wd/hub")
+//    private val driverUrl: URL = URL("http://127.0.0.1:4723/wd/hub")
+    private val driverUrl: URL = URL("http://10.0.2.2:4723/wd/hub")
 
     @Before
     fun setUp() {
@@ -27,6 +28,6 @@ abstract class TestBase {
 
     @After
     fun tearDown() {
-        this._driver?.quit() ?: error("Driver instance was unable to quit.")
+//        this._driver?.quit() ?: error("Driver instance was unable to quit.")
     }
 }
