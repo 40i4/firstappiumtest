@@ -1,41 +1,43 @@
 package com.example.fiddlercheck
-import io.appium.java_client.MobileBy
+
+import androidx.annotation.IdRes
+import androidx.test.espresso.Espresso
+import io.appium.java_client.AppiumBy
+import io.appium.java_client.AppiumFluentWait
+import io.appium.java_client.android.AndroidDriver
+import java.time.Duration
+import org.hamcrest.CoreMatchers.`is`
+import org.hamcrest.CoreMatchers.allOf
+import org.hamcrest.CoreMatchers.instanceOf
 import org.junit.Test
-import org.openqa.selenium.By
 import org.openqa.selenium.interactions.Interaction
 import org.openqa.selenium.interactions.PointerInput
 import org.openqa.selenium.interactions.Sequence
-import org.openqa.selenium.remote.DesiredCapabilities
-import org.openqa.selenium.support.ui.ExpectedConditions
-import org.openqa.selenium.support.ui.WebDriverWait
-import java.time.Duration
 
-class HelloWorldTest: TestBase() {
-    override var caps: DesiredCapabilities? = ProjectCapabilities.AndroidBaseCapabilities()
-    //private val headlinesTabButton: String = "com.google.android.apps.magazines:id/tab_headlines"
+class HelloWorldTest : TestBase() {
+    @IdRes
+    private val nextButton: Int = R.id.button_first
 
     @Test
     fun headlinesScrollTest() {
-        val wait = WebDriverWait(driver, 60, 500)
-
-        /*wait.until {
-            ExpectedConditions.visibilityOfElementLocated(
-                By.id(
-                    loginPage.loginButtonId
+        val wait: AppiumFluentWait<AndroidDriver> = AppiumFluentWait(driver)
+        wait.until { driver ->
+            driver.findElement(
+                AppiumBy.androidDataMatcher(
+                    Espresso.onData(allOf(`is`(instanceOf(String::class.java)), `is`("Americano"))).toString()
                 )
-            )
-        }*/
-        // Set an explicit wait of 10 seconds
-      /*  val wait = WebDriverWait(driver?.let { it }, 10)
-
-        // Tap on the Headlines tab button
-        wait.until(ExpectedConditions.presenceOfElementLocated(MobileBy.id(headlinesTabButton))).click()
+            ).isDisplayed
+            true
+        }
+//        AppiumBy.androidDataMatcher(Espresso.onData(allOf(`is`(instanceOf(String::class.java)), `is`("Americano"))).perform(click()).toString())
 
         // Scroll Down
-        val finger: PointerInput = PointerInput(PointerInput.Kind.TOUCH, "finger")
-        val moveToStart: Interaction = finger.createPointerMove(Duration.ZERO, PointerInput.Origin.viewport(), 726, 2452)
-        val pressDown: Interaction = finger.createPointerDown(PointerInput.MouseButton.LEFT.asArg());
-        val moveToEnd: Interaction = finger.createPointerMove(Duration.ofMillis(1000), PointerInput.Origin.viewport(), 726, 660)
+        val finger = PointerInput(PointerInput.Kind.TOUCH, "finger")
+        val moveToStart: Interaction =
+            finger.createPointerMove(Duration.ZERO, PointerInput.Origin.viewport(), 726, 2452)
+        val pressDown: Interaction = finger.createPointerDown(PointerInput.MouseButton.LEFT.asArg())
+        val moveToEnd: Interaction =
+            finger.createPointerMove(Duration.ofMillis(1000), PointerInput.Origin.viewport(), 726, 660)
         val pressUp: Interaction = finger.createPointerUp(PointerInput.MouseButton.LEFT.asArg())
 
         val swipe = Sequence(finger, 0)
@@ -44,9 +46,8 @@ class HelloWorldTest: TestBase() {
         swipe.addAction(moveToEnd)
         swipe.addAction(pressUp)
 
-        driver?.let { it.perform(arrayListOf(swipe)) }*/
+        driver.perform(listOf(swipe))
 
         print("roedeer")
-
     }
 }

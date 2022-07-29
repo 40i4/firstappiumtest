@@ -1,27 +1,32 @@
 package com.example.fiddlercheck
 
-import io.appium.java_client.MobileElement
 import io.appium.java_client.android.AndroidDriver
+import io.appium.java_client.android.options.EspressoOptions
+import io.appium.java_client.android.options.UiAutomator2Options
+import java.net.URL
 import org.junit.After
 import org.junit.Before
-import org.openqa.selenium.remote.DesiredCapabilities
-import java.lang.Exception
-import java.net.URL
 
-open class TestBase {
-   protected var driver: AndroidDriver<MobileElement>? = null
-   protected open var caps: DesiredCapabilities? = null
-   private val webDriverURL: URL = URL("http://127.0.0.1:4723/wd/hub")
+abstract class TestBase {
+    private var _driver: AndroidDriver? = null
+    protected val driver: AndroidDriver
+        get() = _driver!!
 
+    private val options = EspressoOptions()
+        .setDeviceName("emulator-5554")
+        .setPlatformName("Android")
+        .setAppPackage(BuildConfig.APPLICATION_ID)
+        .setAppActivity("com.example.fiddlercheck.MainActivity")
+        .eventTimings()
+    private val driverUrl: URL = URL("http://127.0.0.1:4723/wd/hub")
 
-   @Before
-   fun setUp() {
-       this.driver = AndroidDriver(webDriverURL, caps)
-   }
+    @Before
+    fun setUp() {
+        this._driver = AndroidDriver(driverUrl, options)
+    }
 
-   @After
-   fun tearDown() {
-       this.driver?.quit() ?: throw Exception("Driver instance was unable to quit.")
-   }
-
+    @After
+    fun tearDown() {
+        this._driver?.quit() ?: error("Driver instance was unable to quit.")
+    }
 }
